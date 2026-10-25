@@ -1,28 +1,62 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300" role="img" aria-labelledby="title desc">
-  <title id="title">One shared service, verified input state</title>
-  <desc id="desc">Bar, panel and on-screen display use one Quickshell service, connected to one Python bridge over NDJSON. The bridge reuses a D-Bus connection to Fcitx5 Controller and the Rime mode API. Confirmed state returns to the interface.</desc>
-  <defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#8daf9f"/></marker></defs>
-  <rect width="1200" height="300" rx="20" fill="#121b23"/>
-  <g font-family="Inter,Arial,sans-serif">
-    <text x="34" y="43" font-size="18" fill="#adc2b6">ONE SHARED SERVICE · ONE PERSISTENT CONNECTION</text>
-    <rect x="34" y="79" width="302" height="128" rx="14" fill="#1c2b32" stroke="#41564e"/>
-    <text x="58" y="115" font-size="23" fill="#e6eee9">Native interface</text>
-    <text x="58" y="150" font-size="18" fill="#aebdb8">Bar badge · panel · OSD</text>
-    <text x="58" y="178" font-size="17" fill="#88a49a">Shared across bar instances</text>
-    <path d="M351 141H415" stroke="#8daf9f" stroke-width="2" marker-end="url(#arrow)"/>
-    <text x="383" y="119" text-anchor="middle" font-size="12" fill="#9eafa8">NDJSON</text>
-    <rect x="434" y="79" width="302" height="128" rx="14" fill="#21382e" stroke="#52785e"/>
-    <text x="458" y="115" font-size="23" fill="#e6eee9">Python bridge</text>
-    <text x="458" y="150" font-size="18" fill="#c1d5c7">Read → request → verify</text>
-    <text x="458" y="178" font-size="17" fill="#9fbdab">500ms fallback poll · reconnect</text>
-    <path d="M751 141H815" stroke="#8daf9f" stroke-width="2" marker-end="url(#arrow)"/>
-    <text x="783" y="119" text-anchor="middle" font-size="12" fill="#9eafa8">D-BUS</text>
-    <rect x="834" y="79" width="332" height="128" rx="14" fill="#1c2b32" stroke="#41564e"/>
-    <text x="858" y="115" font-size="23" fill="#e6eee9">Fcitx5 + Rime</text>
-    <text x="858" y="150" font-size="18" fill="#aebdb8">Engine + active state + ascii_mode</text>
-    <text x="858" y="178" font-size="17" fill="#88a49a">Existing engines and keybindings</text>
-    <path d="M1000 220V251H185V220" fill="none" stroke="#8daf9f" stroke-width="1.5" marker-end="url(#arrow)"/>
-    <rect x="458" y="236" width="250" height="28" fill="#121b23"/>
-    <text x="583" y="256" text-anchor="middle" font-size="17" fill="#a9c7b3">Confirmed state back to the UI</text>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="460" viewBox="0 0 1200 460" role="img" aria-labelledby="title desc">
+  <title id="title">How Input Switch confirms a language change</title>
+  <desc id="desc">The bar calls the shared Quickshell service through a QML method. The service exchanges NDJSON over stdin and stdout with a Python bridge. The bridge reads and sets Fcitx5 and Rime state over D-Bus; the observed state returns to update the badge. External Fcitx5 shortcuts are followed by a shared poll.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#8da899"/></marker>
+    <style>
+      text { font-family: Inter, 'Noto Sans', Arial, sans-serif; }
+      .title { fill:#f1f3ef; font-size:27px; font-weight:600; }
+      .eyebrow { fill:#9db7a8; font-size:13px; letter-spacing:1.5px; font-weight:600; }
+      .label { fill:#e5ebe5; font-size:17px; font-weight:600; }
+      .small { fill:#b2beb7; font-size:14px; }
+      .muted { fill:#96a69c; font-size:12px; }
+      .card { fill:#1b2427; stroke:#394943; stroke-width:1.5; }
+      .line { fill:none; stroke:#8da899; stroke-width:2; marker-end:url(#arrow); }
+    </style>
+  </defs>
+  <rect width="1200" height="460" rx="18" fill="#151b1d"/>
+  <text x="48" y="48" class="eyebrow">INPUT SWITCH · STATE FLOW</text>
+  <text x="48" y="88" class="title">A switch is shown only after the mode is checked.</text>
+
+  <rect x="48" y="145" width="228" height="150" rx="12" class="card"/>
+  <text x="68" y="179" class="eyebrow">01 · INTERACT</text>
+  <text x="68" y="214" class="label">Bar widget</text>
+  <text x="68" y="243" class="small">Toggle or choose a</text>
+  <text x="68" y="265" class="small">language in the panel</text>
+
+  <path d="M285 220H322" class="line"/>
+  <text x="303" y="193" text-anchor="middle" class="muted">QML</text>
+  <text x="303" y="207" text-anchor="middle" class="muted">method</text>
+
+  <rect x="337" y="145" width="228" height="150" rx="12" fill="#202a26" stroke="#59705f" stroke-width="1.5"/>
+  <text x="357" y="179" class="eyebrow">02 · COORDINATE</text>
+  <text x="357" y="214" class="label">Quickshell service</text>
+  <text x="357" y="243" class="small">Shared state, requests</text>
+  <text x="357" y="265" class="small">and bar updates</text>
+
+  <path d="M574 220H611" class="line"/>
+  <text x="592" y="193" text-anchor="middle" class="muted">NDJSON</text>
+  <text x="592" y="207" text-anchor="middle" class="muted">stdio</text>
+
+  <rect x="626" y="145" width="228" height="150" rx="12" fill="#202a26" stroke="#59705f" stroke-width="1.5"/>
+  <text x="646" y="179" class="eyebrow">03 · APPLY</text>
+  <text x="646" y="214" class="label">Python bridge</text>
+  <text x="646" y="243" class="small">Chinese → Rime +</text>
+  <text x="646" y="265" class="small">ascii_mode off</text>
+  <text x="646" y="287" class="small">English → keyboard-us</text>
+
+  <path d="M863 220H900" class="line"/>
+  <text x="881" y="202" text-anchor="middle" class="muted">D-Bus</text>
+
+  <rect x="915" y="145" width="237" height="150" rx="12" class="card"/>
+  <text x="935" y="179" class="eyebrow">04 · VERIFY</text>
+  <text x="935" y="214" class="label">Fcitx5 + Rime</text>
+  <text x="935" y="243" class="small">Check active engine</text>
+  <text x="935" y="265" class="small">and input mode</text>
+
+  <path d="M1033 308V352H451V308" class="line"/>
+  <rect x="416" y="333" width="366" height="38" rx="19" fill="#26332c" stroke="#516857"/>
+  <text x="599" y="358" text-anchor="middle" class="small">Observed result updates the bar badge</text>
+
+  <text x="600" y="420" text-anchor="middle" class="muted">A shared 500 ms poll also follows existing Fcitx5 shortcuts.</text>
 </svg>

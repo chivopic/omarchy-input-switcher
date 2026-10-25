@@ -14,6 +14,12 @@ tests/                  Model, backend, installer and desktop tests
 docs/                   Public images and reproducible QML previews
 ```
 
+## State flow
+
+![Illustration of the request, apply and verify flow between the bar, Python bridge, Fcitx5 and Rime](assets/architecture.svg)
+
+The bridge checks the selected engine and Rime's internal ASCII mode before the bar reports Chinese. The diagram illustrates the implemented flow. The language-panel previews in `assets/language-panels.png` are renders of the actual QML component with sample states and a sample theme.
+
 ## Checks
 
 ```bash
@@ -70,12 +76,12 @@ Errors use `ok:false` and an `error` object containing `code` and `message`. A p
 ## Reproduce the documentation images
 
 ```bash
-python3 docs/render-previews.py
+python3 docs/build-language-preview.py
 ```
 
-This uses the actual `InputPanel.qml`, Omarchy’s UI kit, sample states and an explicit sample palette. Quickshell runs with the offscreen software renderer and saves 3× PNG previews into `docs/assets/`. It does not capture the desktop, change the user’s theme or control the actual input method. Some offscreen Qt platforms print harmless window-mask warnings.
+This first runs `docs/render-previews.py` to render the actual `InputPanel.qml` with Omarchy’s UI kit, sample states and an explicit sample palette. Quickshell uses the offscreen software renderer to save the 3× panel PNGs in `docs/assets/`; the script then combines those PNGs into `docs/assets/language-panels.png`, used by both READMEs. It requires `rsvg-convert` for the final PNG conversion.
 
-The hero is an illustrated overview, and the architecture image is a diagram. Both are editable SVG files. The panel PNGs are real component renders, rather than illustrations of a different UI.
+The process does not capture the desktop, change the user’s theme or control the actual input method. Some offscreen Qt platforms print harmless window-mask warnings. The architecture image is an editable SVG diagram. Panel images are real component renders using sample state and a sample theme; they are not desktop screenshots.
 
 ## Local installation lifecycle
 
