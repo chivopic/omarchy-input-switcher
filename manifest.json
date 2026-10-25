@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "io.github.chivopic.input-switch",
+  "name": "Input Switch",
+  "version": "0.1.0",
+  "author": "chivopic",
+  "description": "Precise Chinese/English switching for Fcitx5 and Rime",
+  "license": "MIT",
+  "kinds": ["service", "bar-widget"],
+  "entryPoints": {
+    "service": "Service.qml",
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "Input Switch",
+    "description": "Click to switch Chinese/English; right-click for input settings",
+    "category": "Input",
+    "allowMultiple": false,
+    "defaultSection": "center",
+    "defaults": { "showOsd": true, "osdDuration": 700 },
+    "schema": [
+      { "key": "showOsd", "type": "boolean", "label": "Show language change on screen", "defaultValue": true },
+      { "key": "osdDuration", "type": "integer", "label": "On-screen display duration (ms)", "min": 250, "max": 3000, "step": 50, "defaultValue": 700 }
+    ]
+  }
+}
