@@ -4,6 +4,7 @@
   "name": "Input Switch",
   "version": "0.1.0",
   "author": "chivopic",
+  "homepage": "https://github.com/chivopic/omarchy-input-switcher",
   "description": "Precise Chinese/English switching for Fcitx5 and Rime",
   "license": "MIT",
   "kinds": ["service", "bar-widget"],

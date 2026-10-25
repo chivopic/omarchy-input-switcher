@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300" role="img" aria-labelledby="title desc">
+  <title id="title">One shared service, verified input state</title>
+  <desc id="desc">Bar, panel and on-screen display use one Quickshell service, connected to one Python bridge over NDJSON. The bridge reuses a D-Bus connection to Fcitx5 Controller and the Rime mode API. Confirmed state returns to the interface.</desc>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#8daf9f"/></marker></defs>
+  <rect width="1200" height="300" rx="20" fill="#121b23"/>
+  <g font-family="Inter,Arial,sans-serif">
+    <text x="34" y="43" font-size="18" fill="#adc2b6">ONE SHARED SERVICE · ONE PERSISTENT CONNECTION</text>
+    <rect x="34" y="79" width="302" height="128" rx="14" fill="#1c2b32" stroke="#41564e"/>
+    <text x="58" y="115" font-size="23" fill="#e6eee9">Native interface</text>
+    <text x="58" y="150" font-size="18" fill="#aebdb8">Bar badge · panel · OSD</text>
+    <text x="58" y="178" font-size="17" fill="#88a49a">Shared across bar instances</text>
+    <path d="M351 141H415" stroke="#8daf9f" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="383" y="119" text-anchor="middle" font-size="12" fill="#9eafa8">NDJSON</text>
+    <rect x="434" y="79" width="302" height="128" rx="14" fill="#21382e" stroke="#52785e"/>
+    <text x="458" y="115" font-size="23" fill="#e6eee9">Python bridge</text>
+    <text x="458" y="150" font-size="18" fill="#c1d5c7">Read → request → verify</text>
+    <text x="458" y="178" font-size="17" fill="#9fbdab">500ms fallback poll · reconnect</text>
+    <path d="M751 141H815" stroke="#8daf9f" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="783" y="119" text-anchor="middle" font-size="12" fill="#9eafa8">D-BUS</text>
+    <rect x="834" y="79" width="332" height="128" rx="14" fill="#1c2b32" stroke="#41564e"/>
+    <text x="858" y="115" font-size="23" fill="#e6eee9">Fcitx5 + Rime</text>
+    <text x="858" y="150" font-size="18" fill="#aebdb8">Engine + active state + ascii_mode</text>
+    <text x="858" y="178" font-size="17" fill="#88a49a">Existing engines and keybindings</text>
+    <path d="M1000 220V251H185V220" fill="none" stroke="#8daf9f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <rect x="458" y="236" width="250" height="28" fill="#121b23"/>
+    <text x="583" y="256" text-anchor="middle" font-size="17" fill="#a9c7b3">Confirmed state back to the UI</text>
+  </g>
+</svg>
