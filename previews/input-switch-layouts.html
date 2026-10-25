@@ -1,0 +1,87 @@
+<div id="ime-layout-preview" aria-label="输入法插件布局预览">
+  <style>
+    #ime-layout-preview { --ime-surface: light-dark(#f8f6f0,#1c2027); --ime-ink: light-dark(#282d35,#e5e8ed); --ime-muted: light-dark(#5b626d,#acb5c3); --ime-line: light-dark(#d6d7d8,#424a57); --ime-accent: light-dark(#305b4e,#9fceb7); --ime-selected: light-dark(#dce9e1,#30473d); color:var(--ime-ink); font-family:ui-monospace,monospace; display:grid; gap:22px; padding:4px; }
+    #ime-layout-preview * { box-sizing:border-box; }
+    #ime-layout-preview .ime-caption { color:var(--ime-muted); margin-bottom:8px; font-size:12px; }
+    #ime-layout-preview .ime-bar { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:9px 12px; background:var(--ime-surface); border:1px solid var(--ime-line); border-radius:8px; min-height:48px; }
+    #ime-layout-preview button { font:inherit; color:var(--ime-ink); background:var(--ime-surface); border:1px solid var(--ime-line); border-radius:6px; padding:6px 10px; min-height:32px; cursor:pointer; }
+    #ime-layout-preview button[aria-pressed="true"] { background:var(--ime-selected); color:var(--ime-accent); }
+    #ime-layout-preview .ime-actions { display:flex; align-items:center; gap:6px; }
+    #ime-layout-preview .ime-time { color:var(--ime-muted); font-size:12px; white-space:nowrap; }
+    #ime-layout-preview .ime-popover { max-width:310px; margin-top:8px; margin-left:auto; padding:14px; background:var(--ime-surface); border:1px solid var(--ime-line); border-radius:10px; }
+    #ime-layout-preview .ime-title { margin-bottom:12px; display:flex; align-items:center; justify-content:space-between; gap:12px; }
+    #ime-layout-preview .ime-language { display:flex; gap:8px; }
+    #ime-layout-preview .ime-language button { flex:1; }
+    #ime-layout-preview .ime-description { margin-top:12px; color:var(--ime-muted); font-size:12px; }
+    #ime-layout-preview .ime-osd-area { display:flex; align-items:center; justify-content:center; min-height:100px; }
+    #ime-layout-preview .ime-osd { padding:14px 25px; display:flex; align-items:center; gap:14px; background:var(--ime-surface); border:1px solid var(--ime-line); border-radius:10px; }
+    #ime-layout-preview .ime-glyph { color:var(--ime-accent); font-size:23px; }
+    #ime-layout-preview .ime-sub { color:var(--ime-muted); font-size:12px; margin-top:4px; }
+    #ime-layout-preview [hidden] { display:none; }
+    @media(pointer:coarse) { #ime-layout-preview button { min-height:44px; min-width:44px; } }
+    @media(max-width:380px) { #ime-layout-preview .ime-time { display:none; } }
+  </style>
+  <section aria-label="极简徽标与面板">
+    <div class="ime-caption">A · 极简徽标 + 面板 · 推荐 / 模拟</div>
+    <div class="ime-bar">
+      <span>1 · 2 · 3</span>
+      <span class="ime-time">19:42</span>
+      <div class="ime-actions">
+        <button type="button" data-ime-toggle aria-label="切换中英文" data-ime-label>中</button>
+        <button type="button" id="ime-menu-button" aria-label="展开输入法面板" aria-expanded="true" aria-controls="ime-popover">⌄</button>
+      </div>
+    </div>
+    <div class="ime-popover" id="ime-popover">
+      <div class="ime-title"><span>输入法</span><span data-ime-engine>Rime</span></div>
+      <div class="ime-language">
+        <button type="button" data-ime-set="zh" aria-pressed="true">中文</button>
+        <button type="button" data-ime-set="en" aria-pressed="false">English</button>
+      </div>
+      <div class="ime-description">Ctrl + Space · 快速切换</div>
+    </div>
+  </section>
+  <section aria-label="双段按钮">
+    <div class="ime-caption">B · 常驻双段按钮 / 模拟</div>
+    <div class="ime-bar">
+      <span>1 · 2 · 3</span>
+      <span class="ime-time">19:42</span>
+      <div class="ime-actions">
+        <button type="button" data-ime-set="zh" aria-pressed="true">中</button>
+        <button type="button" data-ime-set="en" aria-pressed="false">EN</button>
+      </div>
+    </div>
+  </section>
+  <section aria-label="快捷键与屏幕提示">
+    <div class="ime-caption">C · 快捷键 + 短暂提示 / 模拟</div>
+    <div class="ime-bar"><span>1 · 2 · 3</span><button type="button" data-ime-toggle>模拟 Ctrl + Space</button></div>
+    <div class="ime-osd-area"><div class="ime-osd" role="status" aria-live="polite"><span class="ime-glyph" data-ime-label>中</span><div><span data-ime-name>中文输入</span><div class="ime-sub" data-ime-engine>Rime</div></div></div></div>
+  </section>
+  <script>
+    (() => {
+      const root = document.getElementById('ime-layout-preview');
+      const state = { language:'zh', rounded:true, panel:true };
+      const popover = root.querySelector('#ime-popover');
+      const menu = root.querySelector('#ime-menu-button');
+      function render() {
+        const chinese = state.language === 'zh';
+        root.querySelectorAll('[data-ime-label]').forEach(el => { el.textContent = chinese ? '中' : 'EN'; });
+        root.querySelectorAll('[data-ime-engine]').forEach(el => { el.textContent = chinese ? 'Rime' : 'English (US)'; });
+        root.querySelectorAll('[data-ime-name]').forEach(el => { el.textContent = chinese ? '中文输入' : '英文输入'; });
+        root.querySelectorAll('[data-ime-set]').forEach(el => { el.setAttribute('aria-pressed',String(el.dataset.imeSet === state.language)); });
+        root.querySelectorAll('.ime-bar,.ime-popover,.ime-osd').forEach(el => { el.style.borderRadius = state.rounded ? '10px' : '2px'; });
+        popover.hidden = !state.panel;
+        menu.setAttribute('aria-expanded',String(state.panel));
+      }
+      root.querySelectorAll('[data-ime-toggle]').forEach(el => { el.addEventListener('click',() => { state.language = state.language === 'zh' ? 'en' : 'zh'; render(); }); });
+      root.querySelectorAll('[data-ime-set]').forEach(el => { el.addEventListener('click',() => { state.language = el.dataset.imeSet; render(); }); });
+      menu.addEventListener('click',() => { state.panel = !state.panel; render(); });
+      render();
+      if (globalThis.Tweak) {
+        const tweak = new Tweak({container:root,onChange:render});
+        tweak.addSelect(state,'language',{label:'当前语言',options:[{label:'中文',value:'zh'},{label:'English',value:'en'}]});
+        tweak.addToggle(state,'rounded',{label:'圆角'});
+        tweak.addToggle(state,'panel',{label:'展开面板'});
+      }
+    })();
+  </script>
+</div>
